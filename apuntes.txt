@@ -1,0 +1,28 @@
+¿Por qué no hay webpack?
+¿Por que, lo que están en el .env, cuando se importa, se le pone. "DB_USER, DB_PASSWORD, DB_HOST,
+} = process.env" ¿Que es este "process.env"?
+
+
+checks. 
+Poner en el script del HTML type = "text/babel"
+en props: key = {index} (en los maps)
+
+en front end: import ___ from___  ,export, export default
+
+
+Postgres:
+    npm init
+    sudo -u postgres psql
+        \l   => para ver qué bases de datos se tiene
+        create database <nombre>;   // siempre recordar el ";" al final
+
+        \c => para conectarse a una base de datos
+
+        \dt  => describe tables
+
+        \d "<modelname>"; // desbribe los atributos/columbas del modelo/tabla.
+
+        Para levantar el server, primero instalar express. npm install express 
+
+
+
