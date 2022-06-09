@@ -3,12 +3,22 @@ import { Route, Switch } from 'react-router-dom';  //eo
 
 import Landing from './components/Landing/Landing.jsx';
 import Params from './components/Params/Params.jsx';
+import Deck from './components/Deck/Deck.jsx';
+import SearchBar from './components/SearchBar/SearchBar';
 
 function App() {
+  
+
+  const prueba = [{nombre:"Eric", tipos:"Ostddderling"},{nombre:"pedra", tipos:"drino"} ]
+  
   return (
     <div className="App">
+      <SearchBar/>
+      <Deck pokemons={prueba}/>
+      {/* <Deck pokemons={prueba}/> */}
+
       <Route path='/inicio'>
-        <Landing/>
+        <Landing />
       </Route>
       <Route path="/home">
         <h1>Bienvenidos al Pokelandia!!</h1>
@@ -20,7 +30,7 @@ function App() {
         <div>Acá vamos a crear un poquemon</div>
       </Route>
       <Route path='/params/:par1/:par2'>
-        <Params/>
+        <Params />
       </Route>
     </div>
   );

@@ -26,3 +26,5 @@ conn.sync({ force: true }).then(() => {
     console.log('%s listening at 3003'); // eslint-disable-line no-console
   });
 });
+
+// ¿Por qué ocurre primero la sync y luego el listen? ¿Acaso no es al revez?

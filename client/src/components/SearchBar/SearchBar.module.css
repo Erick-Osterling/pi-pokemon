@@ -1,0 +1,11 @@
+.btnSearch {
+    color: rgb(7, 157, 4);
+    background-color: white;
+    border: solid 2px rgb(7, 157, 4);
+    border-radius: 5px;
+    margin-left: 10px;
+}  
+
+/* .btnSearch:hover{
+    background-color: red;
+} */

@@ -3,9 +3,11 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('pokemon', {
+  sequelize.define('Pokemon', {
     ID: {
-      type: DataTypes.UUID
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement:true
     },
     nombre: {
       type: DataTypes.STRING,
@@ -29,5 +31,11 @@ module.exports = (sequelize) => {
     peso: {
       type: DataTypes.INTEGER
     }
+  },
+  {
+    timestamps: false
   });
 };
+
+// le tengo que meter un get y set para que se guarde distinto al id de la api. y se obtenga igual.
+

@@ -9,6 +9,8 @@ en props: key = {index} (en los maps)
 
 en front end: import ___ from___  ,export, export default
 
+ir a la ocataba pagina de paginación, y hacer un filtro.
+
 
 Postgres:
     npm init
@@ -25,4 +27,5 @@ Postgres:
         Para levantar el server, primero instalar express. npm install express 
 
 
-
+de axios a fetch: video de jimena repaso m3 min 44
+validations: martina min 52

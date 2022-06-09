@@ -2,7 +2,7 @@ import React from "react";
 import {useParams, useHistory, useLocation} from 'react-router-dom';
 
 export default function Params(props) {
-    let {par1, par2} = useParams();  //los nombres de estar variables están definidas en la route en app.js
+    let {par1, par2} = useParams();  //los nombres de estas variables están definidas en la route en app.js
     return (
         <div>
             <h1>First Parameter: {par1}</h1>
