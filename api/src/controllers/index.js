@@ -2,38 +2,63 @@ const axios = require('axios');
 const URL = 'https://pokeapi.co/api/v2';
 const { Pokemon, Tipo, pokeTipos } = require('../db.js');  // importé los modelos para poder alterarlos
 
-
+// FUNCION RUTA 1 y 3  
 const getPokemons = async (req, res) => {
-    try {
-        const { data } = await axios.get(`${URL}/pokemon?limit=5`);
-        const lista = data.results;
-        let urls = data.results.map((poke) => {
-            return poke.url
-        })
+    const { name } = req.query;
 
-
-        console.log(urls);
-
-        res.json(data)
-    } catch (err) {
-        res.json(err)
+    if (name) {  //MANEJO DE RUTA 3
+        try {
+            const { data } = await axios.get(`${URL}/pokemon/${name}`);  // DRY (ojo)
+            const picking = {
+                ID: data.id,
+                nombre: data.name,
+                vida: data.stats[0].base_stat,
+                ataque: data.stats[1].base_stat,
+                defensa: data.stats[2].base_stat,
+                velocidad: data.stats[5].base_stat,
+                altura: data.height,
+                peso: data.weight,
+                tipos: data.types,
+                img: data.sprites.front_default
+            }
+            res.json(picking)
+        } catch (err) {
+            res.json(err)
+        }
+    } else {   // MANEJO DE RUTA 1
+        try {
+            const { data } = await axios.get(`${URL}/pokemon?limit=5`);
+            const lista = data.results;
+            var urls = data.results.map((poke) => {
+                return poke.url
+            })
+            res.json(urls)
+        } catch (err) {
+            res.json(err)
+        }
     }
 }
 
+
+// FUNCION RUTA 2
 const getOnePokemon = async (req, res) => {
-    const { distinct } = req.params
+    const { idPokemon } = req.params;
     try {
-        const { data } = await axios.get(`${URL}/pokemon/${distinct}`);
+        console.log("aca empiezan los PARAMS PARAMS PARAMS");
+        console.log(req);
+        const { data } = await axios.get(`${URL}/pokemon/${idPokemon}`);
         const picking = {
             ID: data.id,
             nombre: data.name,
             vida: data.stats[0].base_stat,
             ataque: data.stats[1].base_stat,
             defensa: data.stats[2].base_stat,
+            velocidad: data.stats[5].base_stat,
             altura: data.height,
-            peso: data.weight
+            peso: data.weight,
+            tipos: data.types,
+            img: data.sprites.front_default
         }
-        // console.log(picking)
         res.json(picking)
 
     } catch (err) {
@@ -41,6 +66,7 @@ const getOnePokemon = async (req, res) => {
     }
 }
 
+// FUNCION RUTA 5
 const getTipos = async (req, res) => {
     try {
         const { data } = await axios.get(`${URL}/type`);
@@ -50,6 +76,7 @@ const getTipos = async (req, res) => {
     }
 }
 
+// FUNCION RUTA 4
 const postPokemon = async (req, res) => {
     const { nombre, vida, ataque, defensa, velocidad, altura, peso } = req.body;
     try {
@@ -60,6 +87,10 @@ const postPokemon = async (req, res) => {
     } catch (error) {
         res.send(error)
     }
+}
+
+const getPrueba = (req, res) => {
+    res.json("Backend prueba222")
 }
 
 // rutas posibles a la api
@@ -78,4 +109,5 @@ const postPokemon = async (req, res) => {
 // order: 2:04
 
 
-module.exports = { getPokemons, getOnePokemon, getTipos, postPokemon };
+// module.exports = { getPokemons, getOnePokemon, getTipos, postPokemon, getPrueba };
+module.exports = { getPrueba, getPokemons, getOnePokemon, getTipos, postPokemon };

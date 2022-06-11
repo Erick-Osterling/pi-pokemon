@@ -4,9 +4,9 @@ import style from './SearchBar.module.css';
 export default function SearchBar({onSearch}) {
     const [pokemon , setPokemon] = useState("")
 
-  function obtenerPokemon(evento) {
-    setPokemon(evento.target.value)
-  }
+  // function obtenerPokemon(evento) {
+  //   setPokemon(evento.target.value)
+  // }
   
   return (
     <form onSubmit={(e) => {
