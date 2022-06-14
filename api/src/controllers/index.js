@@ -39,7 +39,6 @@ const getPokemons = async (req, res) => {
     }
 }
 
-
 // FUNCION RUTA 2
 const getOnePokemon = async (req, res) => {
     const { idPokemon } = req.params;

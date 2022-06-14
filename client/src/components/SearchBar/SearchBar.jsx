@@ -23,3 +23,5 @@ export default function SearchBar({onSearch}) {
     </form>
   );
 }
+
+// ojo, cuando busquemos, luego para mostrar, hay que hacer un ternario en el map: "movies?.map" 21b react redux 51:50
