@@ -16,7 +16,7 @@ export default function Detalle({ idPokemon }) {
 
 
     if (pokeDetalle) {
-        console.log(pokeDetalle);
+        // console.log(pokeDetalle);
         return (
             <div className={style.contenedor}>
                 <Card nombre={pokeDetalle.nombre} img={pokeDetalle.img} tipos={pokeDetalle.tipos} />

@@ -8,43 +8,43 @@ import Deck from './components/Deck/Deck.jsx';
 import SearchBar from './components/SearchBar/SearchBar.jsx';
 import Prueba from './components/Prueba/Prueba.jsx';
 import Detalle from './components/Detalle/Detalle.jsx'
-
 import imagenpoke from "../src/assets/images/pokemon.png";
-import Contador from './components/Contador/Contador.jsx';   // borrar luego. solo se importó para configurar redux
+import Create from './components/Crear/Crear';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
   return (
     <div className="App">
-
-      <Prueba num={6} />
-
-
       <Switch>
         <Route path='/landing'>
           <Landing img={imagenpoke} />
         </Route>
         <Route path={'/detalle'}>
+          <Navbar />
           <Detalle idPokemon={777} />
         </Route>
 
         <Route path="/home">
-          <h1> HOME </h1>
+          <Navbar />
           <SearchBar />
+          <Deck />
           {/* <Deck pokemons={[{ID:1, nombre:"Erick", img: "4", tipos: "Listos"}]}/> */}
         </Route>
-        <Route path='/detalle'>
-          <div>Irán los detalles acá.</div>
+
+        <Route path='/create'>
+          <Navbar />
+          <Create />
         </Route>
-        <Route path='/crear'>
-          <div>Acá vamos a crear un poquemon</div>
+
+        <Route path='/prueba'>
+          <Navbar />
+          <Prueba num={6} />
         </Route>
-        <Route path='/params/:par1/:par2'>
+
+        {/* <Route path='/params/:par1/:par2'>
           <Params />
-        </Route>
-        <Route path={'/contador'}>
-          <Contador />
-        </Route>
+        </Route> */}
       </Switch>
     </div>
   );

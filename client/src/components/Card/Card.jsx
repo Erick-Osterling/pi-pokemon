@@ -7,7 +7,7 @@ export default function Card({ nombre, img, tipos }) {
 
   return (
     <div className={style.card}>
-      <div className="nombre">
+      <div>
         {nombre}
       </div>
       <img src={img} alt="Imagen del pokemon" />

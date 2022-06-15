@@ -1,7 +1,9 @@
-import { GET_POKES_RAW } from '../actions/pokeActions.js';
+import { GET_POKES_RAW, GET_PRUEBA, GET_POKES_DATA } from '../actions/pokeActions.js';
 
 const initialState = {
-    pokemons: []
+    pokemonsUrl: [],
+    pokemonsData: [],
+    dataPrueba: ""
 }
 
 export default function pokeReducer(state = initialState, action) {
@@ -9,7 +11,17 @@ export default function pokeReducer(state = initialState, action) {
         case GET_POKES_RAW:
             return {
                 ...state,
-                pokemons : action.payload
+                pokemonsUrl: action.payload
+            }
+            case GET_POKES_DATA:
+                return {
+                    ...state,
+                    pokemonsData: [...state.pokemonsData , action.payload ] 
+                }
+        case GET_PRUEBA:
+            return {
+                ...state,
+                dataPrueba: action.payload
             }
         default:
             return state;

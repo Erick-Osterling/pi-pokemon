@@ -1,0 +1,18 @@
+.container {
+    background-color: pink;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+    color: red;
+}
+
+.container div {
+    color: purple;
+}
+
+a {
+    text-decoration: none;
+}
+
+

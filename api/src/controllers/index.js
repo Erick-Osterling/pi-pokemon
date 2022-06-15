@@ -29,7 +29,7 @@ const getPokemons = async (req, res) => {
         try {
             const { data } = await axios.get(`${URL}/pokemon?limit=5`);
             const lista = data.results;
-            var urls = data.results.map((poke) => {
+            const urls = data.results.map((poke) => {
                 return poke.url
             })
             res.json(urls)
@@ -89,7 +89,7 @@ const postPokemon = async (req, res) => {
 }
 
 const getPrueba = (req, res) => {
-    res.json("Backend prueba222")
+    res.json("se obtuv")
 }
 
 // rutas posibles a la api
