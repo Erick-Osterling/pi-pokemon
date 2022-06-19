@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import style from './Deck.module.css';
-import { getPokesRaw, getPokesData } from "../../redux/actions/pokeActions";
+import { getPokes, getTypes } from "../../redux/actions/pokeActions";
 import { connect } from 'react-redux'
 import Card from "../Card/Card.jsx";
 
+
 export function Deck(props) {
-  // const [pokemon, setPokemon] = useState()
+
   useEffect(() => {
-    props.getPokesRaw()
+    props.dispatchGetPokes();
+    props.dispatchGetTypes();
   }, [])
 
   return (
     <div className={style.container}>
       {
-        props.pokemonsUrl.map(pkm =>
-          <Card
-            key={pkm.ID}
-            nombre={pkm.nombre}
-            img={pkm.img}
-            tipos={pkm.tipos}
-          />)
+        props.reduxPokemons.map(pkm => {
+          return (
+            <Card
+              key={pkm.ID}
+              nombre={pkm.nombre}
+              imagen={pkm.imagen}
+              tipos={pkm.tipos}
+            />
+          )
+        }
+        )
       }
     </div>
   )
@@ -27,15 +33,14 @@ export function Deck(props) {
 }
 
 const mapStateToProps = (state) => ({
-  pokemonsUrl: state.pokemonsUrl,
-  pokemonsData: state.pokemonsData
+  reduxPokemons: state.pokemons
 });
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPokesRaw: () => dispatch(getPokesRaw()),
-    getPokesData: () => dispatch(getPokesData())
+    dispatchGetPokes: () => dispatch(getPokes()),
+    dispatchGetTypes: () => dispatch(getTypes())
   }
 }
 

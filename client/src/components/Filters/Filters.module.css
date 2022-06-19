@@ -1,0 +1,8 @@
+.container{
+    display: flex;
+    border: solid red 2px;
+}
+
+.container form{
+    margin: 0px 30px;
+}

@@ -1,28 +1,32 @@
-import { GET_POKES_RAW, GET_PRUEBA, GET_POKES_DATA } from '../actions/pokeActions.js';
+import { GET_POKES, GET_TYPES } from '../actions/pokeActions.js';
 
 const initialState = {
-    pokemonsUrl: [],
-    pokemonsData: [],
-    dataPrueba: ""
+    pokemons: [], 
+    allTypes: []
 }
 
 export default function pokeReducer(state = initialState, action) {
     switch (action.type) {
-        case GET_POKES_RAW:
-            return {
-                ...state,
-                pokemonsUrl: action.payload
-            }
-            case GET_POKES_DATA:
+        case GET_POKES:
+
+            if (typeof(action.payload) !== "string") {
                 return {
                     ...state,
-                    pokemonsData: [...state.pokemonsData , action.payload ] 
+                    pokemons: action.payload
                 }
-        case GET_PRUEBA:
-            return {
-                ...state,
-                dataPrueba: action.payload
+            } else {
+                alert("Prueba con otro Pokemon (uno que exista).")
             }
+              break;
+        case GET_TYPES:
+            if(action.payload.length > 0){
+                return {
+                    ...state,
+                    allTypes: action.payload
+                }
+            }
+            console.log(action.payload);
+            break;
         default:
             return state;
     }

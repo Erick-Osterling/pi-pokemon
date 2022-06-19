@@ -1,14 +1,20 @@
 .container {
     background-color: pink;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     height: 40px;
     color: red;
+    padding: 0px 30px;
 }
 
 .container div {
     color: purple;
+    display: flex;
+}
+
+.container div a {
+    margin: 10px;
 }
 
 a {

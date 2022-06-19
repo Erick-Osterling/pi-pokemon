@@ -29,3 +29,8 @@
     margin: 0px;
     padding: 0px;
 }
+
+.typeDiv{
+    margin: 10px;
+    display: inline;
+}
