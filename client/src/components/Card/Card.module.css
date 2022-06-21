@@ -1,11 +1,18 @@
 .card {
-    margin: 20px;
-    width: 18rem;
+    margin: 15px;
+    width: 15rem;
     height: 18rem;
     border: solid black 5px;
+    background-color: rgb(214, 214, 89);
   }
 
   .card div{
-      margin: 15px;
+      margin: 12px;
   }
   
+  .card img {
+    border: solid 3px red;
+    height: 110px;
+    max-width: 200px;
+    background-color: black;
+  }

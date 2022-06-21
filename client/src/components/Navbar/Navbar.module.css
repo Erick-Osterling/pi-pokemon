@@ -1,11 +1,11 @@
 .container {
-    background-color: pink;
+    background-color: rgb(240, 240, 87);
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 40px;
     color: red;
-    padding: 0px 30px;
+    padding: 10px 30px;
 }
 
 .container div {

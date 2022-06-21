@@ -1,17 +1,25 @@
+
+
 .danger{
     color: red;
 }
 
+.titulo{
+    margin-top: 50px;
+}
 .container {
     border: solid purple 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    margin: 60px auto;
+    background-color: rgb(153, 248, 216);
+    padding: 30px;
+    width: 50%;
 }
 
 .container input {
-    width: 500px;
+    width: 200px;
 }
 
 .container div label {
@@ -33,4 +41,9 @@
 .typeDiv{
     margin: 10px;
     display: inline;
+}
+
+.botones {
+    margin: 20px;
+    padding: 10px;
 }

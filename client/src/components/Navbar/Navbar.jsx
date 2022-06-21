@@ -10,7 +10,6 @@ export default function Navbar() {
         <div className={style.container}>
             <div>
                 <Link to='/landing' className='style.link'><div>INICIO</div></Link>
-                <Link to='/home' className='style.link'><div>DECK</div></Link>
                 <Link to='/create' className='style.link'><div>CREAR</div></Link>
             </div>
             <div>

@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import style from './Crear.module.css'
+import { getPokes, getTypes } from "../../redux/actions/pokeActions";
 import axios from "axios";
 import { connect } from 'react-redux'
 
 
 export function Create(props) {
+
+    useEffect(() => {
+        props.dispatchGetPokes();
+        props.dispatchGetTypes();
+      }, [])
+
 
     let placeHolderValues =
     {
@@ -38,10 +45,6 @@ export function Create(props) {
     const [errors, setErrors] = useState({})
     const [typeParaMostrar, setTypeParaMostrar] = useState([])
 
-
-    useEffect(() => {
-        console.log()
-      }, [])
 
     function validate(input) {
         let errors = {};
@@ -95,19 +98,35 @@ export function Create(props) {
         return errors
     }
 
-    const handleInputChange = (e) => {
+    function handleInputChange (e) {
         e.preventDefault();
 
         setNewPokemon({
             ...newPokemon,
             [e.target.name]: e.target.value
-        })
+        });
 
         setErrors(validate({
             ...newPokemon,
             [e.target.name]: e.target.value
-        }))
+        }));
     }
+
+    function handleNewType (event) {
+
+        console.log(event.target.name)
+        if (typeParaMostrar.length === 2) {
+            alert("Los pokemones pueden tener un máximo de dos tipos")
+        } else {
+            setTypeParaMostrar([...typeParaMostrar, props.reduxAllTypes[event.target.selectedIndex - 1].nombre])
+            // console.log(props.reduxAllTypes[event.target.selectedIndex].ID)
+            setNewPokemon({
+                ...newPokemon,
+                [event.target.name]: [...newPokemon[event.target.name], props.reduxAllTypes[event.target.selectedIndex].ID ]
+            })
+        }
+    }
+
 
     function postPokemon(e) {
         e.preventDefault();
@@ -119,24 +138,9 @@ export function Create(props) {
         setNewPokemon(placeHolderValues)
     }
 
-
-    function handleNewType (event) {
-
-        console.log(event.target.name)
-        if (typeParaMostrar.length === 2) {
-            alert("Los pokemones pueden tener un máximo de dos tipos")
-        } else {
-            setTypeParaMostrar([...typeParaMostrar, props.reduxAllTypes[event.target.selectedIndex].nombre])
-            console.log(props.reduxAllTypes[event.target.selectedIndex].ID)
-            setNewPokemon({
-                ...newPokemon,
-                [event.target.name]: [...newPokemon[event.target.name], props.reduxAllTypes[event.target.selectedIndex].ID ]
-            })
-        }
-    }
-
     return (
         <form onSubmit={(e) => postPokemon(e)}>
+            <h2 className={style.titulo}>Crea tu Pokémon !! </h2>
             <div className={style.container}>
                 <div>
                     <label>Nombre:</label>
@@ -211,43 +215,58 @@ export function Create(props) {
                     {errors.imagen ? (<p className={style.danger}>{errors.imagen}</p>) : null}
                 </div>
                 <div>
-                    <label htmlFor="types">Tipos</label>
+                    <label>Tipos</label>
     
                     <select name="tipo" onChange={(e)=> handleNewType(e)}>
-                        {props.reduxAllTypes.map(type => {
+                        <option disabled selected >--------</option>
+                        {props.reduxAllTypes.map((type, index) => {
                             return (
-                                    <option id={type.ID} value={type.ID}  >
+                                    <option key={index} id={type.ID} value={type.ID}  >
                                     {type.nombre}
                                     </option>    
                             )
                         })}
                     </select>
-                    {typeParaMostrar.length ? <div>{typeParaMostrar.map((type) => {
+                    {typeParaMostrar.length ? <div>{typeParaMostrar.map((type,index) => {
                         return(
-                            <div className={style.typeDiv}>{type}</div>
+                            <div key={index} className={style.typeDiv}>{type}</div>
                         )
                     })}</div> 
                     : null }
         
-
                 </div>
                 <div>
                     <input
+                        className={style.botones}
                         type='submit'
-                        disabled={errors.altura || errors.ataque || errors.vida || errors.defensa || errors.velocidad || errors.imagen || errors.peso ? true : false}
+                        disabled={
+                            errors.altura || 
+                            errors.ataque || 
+                            errors.vida || 
+                            errors.defensa || 
+                            errors.velocidad || 
+                            errors.imagen || 
+                            errors.peso ||
+                            typeParaMostrar.length === 0
+                            ? true : false}
                         value="Crear Pokemon"
-                        className={style.submit}
                     />
-                    <button><Link to={"/home"}>VOLVER AL DECK</Link></button>
+                    <button className={style.botones}><Link to={"/home"}>VOLVER AL DECK</Link></button>
                 </div>
             </div>
         </form>
     )
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+      dispatchGetPokes: () => dispatch(getPokes()),
+      dispatchGetTypes: () => dispatch(getTypes())
+    }
+  }
 
 const mapStateToProps = (state) => ({
     reduxAllTypes: state.allTypes
 });
 
-export default connect(mapStateToProps, null)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(Create);

@@ -41,5 +41,5 @@ module.exports = (sequelize) => {
   });
 };
 
-// le tengo que meter un get y set para que se guarde distinto al id de la api. y se obtenga igual.
+
 

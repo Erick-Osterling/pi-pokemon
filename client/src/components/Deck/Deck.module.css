@@ -1,6 +1,28 @@
+.baul{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(75, 212, 247);
+    height: 100vh;
+}
+
 .container {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+   
+}
+
+.paginador {
+    border: solid 1px rgb(219, 219, 219);
+    padding: 20px;
+    align-self: center;
+}
+
+.paginador span {
+    margin: 20px;
+}
+
+.paginador button {
+    margin: 0px 20px;
 }

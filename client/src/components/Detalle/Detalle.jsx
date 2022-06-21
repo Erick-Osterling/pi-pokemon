@@ -3,21 +3,21 @@ import axios from "axios";
 import style from "./Detalle.module.css";
 import Card from "../Card/Card";
 import { Link, useParams } from "react-router-dom";
+import { getPkById } from "../../redux/actions/pokeActions";
+import { connect } from 'react-redux'
 
+export function Detalle(props) {
+    const { idParaDetalle } = useParams();
+    console.log(idParaDetalle)
 
-export default function Detalle() {
-    const [pokeDetalle, setPokeDetalle] = useState();
-    const {idParaDetalle} = useParams();
-    
-    useEffect(() => {   
-        (async () => {
-            const { data } = await axios.get(`http://localhost:5003/pokemons/${idParaDetalle}`)
-            setPokeDetalle(data)
-        })()
-    }, [idParaDetalle]);
+    useEffect(() => {
+        props.disGetPkById(idParaDetalle)
 
+    }, []);
 
-    if (pokeDetalle) {
+    console.log(props.reduxPokemons)
+    let pokeDetalle = props.reduxPokemons
+    if (!Array.isArray(pokeDetalle)) {
         return (
             <div className={style.contenedor}>
                 <Card nombre={pokeDetalle.nombre} imagen={pokeDetalle.imagen} tipos={pokeDetalle.tipos} />
@@ -45,6 +45,19 @@ export default function Detalle() {
         )
     }
 };
+
+
+const mapStateToProps = (state) => ({
+    reduxPokemons: state.pokemons
+});
+
+function mapDispatchToProps(dispatch) {
+    return {
+        disGetPkById: (id) => dispatch(getPkById(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detalle);
 
 
 

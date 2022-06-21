@@ -8,7 +8,6 @@ import Detalle from './components/Detalle/Detalle.jsx'
 import imagenpoke from "../src/assets/images/pokemon.png";
 import Create from './components/Crear/Crear';
 import Navbar from './components/Navbar/Navbar';
-import Filters from './components/Filters/Filters';
 
 function App() {
 
@@ -19,7 +18,6 @@ function App() {
           <Landing img={imagenpoke} />
         </Route>
         <Route path={'/detalle/:idParaDetalle'}>
-          <Navbar />
           <Detalle />
         </Route>
 
@@ -29,7 +27,6 @@ function App() {
         </Route>
 
         <Route path='/create'>
-          <Navbar />
           <Create />
         </Route>
 

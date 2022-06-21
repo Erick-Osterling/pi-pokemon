@@ -36,6 +36,7 @@ export function Filters(props) {
                     <option>Nombre / Descendente</option>
                 </select>
             </form>
+            <button >RESET</button>
         </div>
     );
 };

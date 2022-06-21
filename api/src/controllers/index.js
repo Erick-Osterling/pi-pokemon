@@ -1,10 +1,10 @@
 const axios = require('axios');
 const URL = 'https://pokeapi.co/api/v2';
-const { Pokemon, Tipo, pokeTipos } = require('../db.js');  // importé los modelos para poder alterarlos
+const { Pokemon, Tipo } = require('../db.js');  // importé los modelos para poder alterarlos
 
 
-// escoje la información que se necesita de los pokemons
-const pickData = (data) => {   
+// escoje la información que se necesita de los pokemons que vienen de la API
+const pickData = (data) => {
     let pickedData = {
         ID: data.id,
         nombre: data.name,
@@ -14,39 +14,69 @@ const pickData = (data) => {
         velocidad: data.stats[5].base_stat,
         altura: data.height,
         peso: data.weight,
-        tipos: data.types,
+        tipos: data.types.map((tipo) => tipo.type.name), // es necesario para que llegue igual que desde DB
         imagen: data.sprites.front_default
     }
     return pickedData
 }
 
+const pickDbData = (data) => {   //formatea data proveniente de DB
+    let pickedDbData = {
+        ID: data.ID,
+        nombre: data.nombre,
+        vida: data.vida,
+        ataque: data.ataque,
+        defensa: data.defensa,
+        velocidad: data.velocidad,
+        altura: data.altura,
+        peso: data.peso,
+        tipos: data.Tipos.map((tipo) => tipo.dataValues.nombre),
+        imagen: data.imagen
+    }
+    return pickedDbData
+}
 
 
 // FUNCION RUTA 1 y 3  
 const getPokemons = async (req, res) => {
     const { name } = req.query;
-    // console.log(name);
-    if (!name) {    // busca pokemones en general y devuelve las URLS
+
+    if (!name) {
         try {
-            const { data } = await axios.get(`${URL}/pokemon?limit=5`);
-            const lista = data.results;
-            const urls = data.results.map((poke) => {
-                return poke.url
-            })
-            res.json(urls)
+            const { data } = await axios.get(`${URL}/pokemon?limit=40`);
+            let urls = data.results.map(x => x.url)
+
+            const arrAxiosPokes = await Promise.all(urls.map(x => axios(x)));
+            const dataPkms = arrAxiosPokes.map(x => x.data)
+            const PkmDataApi = dataPkms.map((pk) => pickData(pk))
+
+            const pksDb = await Pokemon.findAll({
+                include: Tipo
+            });
+            const pksDbDatavalues = pksDb.map((x) => x.dataValues)
+            const formatPksDb = pksDbDatavalues.map((pkDb) => pickDbData(pkDb))
+
+            console.log(formatPksDb)
+
+            let pksMixtos = [...PkmDataApi,...formatPksDb]
+
+            res.json(pksMixtos)
+
+
         } catch (err) {
             res.json("hubo un problema")
         }
     } else {    // Atiende a al searchbar. El name llega por query
         try {
             const { data } = await axios.get(`${URL}/pokemon/${name}`);  // DRY (ojo)
-            const picking =  pickData(data)
+            const picking = pickData(data)
             res.json([picking])
         } catch (err) {
             res.json("El pokemon no existe")
         }
     }
 }
+
 
 // FUNCION RUTA 2
 const getPokemonById = async (req, res) => {
@@ -64,7 +94,7 @@ const getPokemonById = async (req, res) => {
 
 // FUNCION RUTA 4
 const postPokemon = async (req, res) => {
-
+    console.log(req)
     const { nombre, vida, ataque, defensa, velocidad, altura, peso, imagen, tipo } = req.body;
     try {
         const newPokemon = await Pokemon.create({
@@ -72,7 +102,7 @@ const postPokemon = async (req, res) => {
         })
         await newPokemon.addTipo(tipo)
         res.json(newPokemon)
-      
+
     } catch (error) {
         res.send(error)
     }
@@ -107,16 +137,5 @@ const getTipos = async (req, res) => {
     }
 }
 
-
-// para alterar la tabla intermedia : martina 2;40
-// set -  borra y pisa.
-// add  -- agrega sobre lo que tiene
-
-// join: martina 2:52
-// order: 2:04
-
 module.exports = { getPokemons, getPokemonById, getTipos, postPokemon };
 
-
-
-// "tipo": "water"
