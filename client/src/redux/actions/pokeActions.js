@@ -4,6 +4,11 @@ export const GET_TYPES = 'GET_TYPES';
 export const GET_DETALLE_POKE_POR_NOMBRE = 'GET_DETALLE_POKE_POR_NOMBRE';
 export const GET_PK_BY_NAME = 'GET_PK_BY_NAME';
 export const GET_PK_BY_ID = 'GET_PK_BY_ID';
+export const RESET_POKES = 'RESET_POKES';
+export const FILTER_BY_ORIGIN = 'FILTER_BY_ORIGIN';
+export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
+export const ORDER = 'ORDER';
+// export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 
 
 export function getPokes() {
@@ -53,11 +58,92 @@ export function getTypes() {
 }
 
 
-
-
-export function handleReset() {
-    
+export function resetPokes(data) {
+    return {
+        type: RESET_POKES,
+        payload: data
+    }
 }
+
+export function filterByOrigin(pokes, criterio) {
+    var filteredPkms;
+    if (criterio === "api") {
+        filteredPkms = pokes.filter((pkm) => typeof(pkm.ID) === "number")
+
+    } else if (criterio === "db"){
+        filteredPkms = pokes.filter((pkm) => isNaN(pkm.ID))
+    }
+    return {
+        type: FILTER_BY_ORIGIN,
+        payload: filteredPkms
+    }
+}
+
+export function filterByType(pokes, type) {
+    var filteredPkms;
+    if (type === "todos") {
+        filteredPkms = pokes
+    } else {
+        filteredPkms = pokes.filter((pks) => pks.tipos.includes(type) )
+    }
+    return {
+        type: FILTER_BY_TYPE,
+        payload: filteredPkms
+    }
+}
+
+export function order(pokes, criterio) {
+    var orderenado = pokes.slice();
+
+    if (criterio === "sinOrd") orderenado  =  orderenado
+
+    if (criterio === "attAsc") {
+            orderenado =  orderenado.sort((a , b)=> {
+            if( a.ataque*1 < b.ataque*1)  return -1; 
+            if( a.ataque*1 > b.ataque*1) return 1; 
+            return 0;
+        })
+    } 
+    if (criterio === "attDes") {
+        orderenado =  orderenado.sort((a , b)=> {
+            if( a.ataque*1 > b.ataque*1)  return -1; 
+            if( a.ataque*1 < b.ataque*1) return 1; 
+            return 0;
+        })
+    } 
+    if (criterio === "namAsc") {
+        orderenado =  orderenado.sort((a , b)=> {
+            if( a.nombre.toLowerCase() < b.nombre.toLowerCase())  return -1; 
+            if( a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1; 
+            return 0;
+        })
+    } 
+    if (criterio === "namDes") {
+        orderenado =  orderenado.sort((a , b)=> {
+            if( a.nombre.toLowerCase() > b.nombre.toLowerCase())  return -1; 
+            if( a.nombre.toLowerCase() < b.nombre.toLowerCase()) return 1; 
+            return 0;
+        })
+    } 
+
+    return {
+        type: ORDER,
+        payload: orderenado
+    }
+}
+
+// export function orderByName(pokes, order) {
+//     var orderedPkms;
+//     if (type === "todos") {
+//         orderedPkms = pokes
+//     } else {
+//         orderedPkms = pokes.filter((pks) => pks.tipos.includes(type) )
+//     }
+//     return {
+//         type: ORDER_BY_NAME,
+//         payload: orderedPkms
+//     }
+// }
 
 
 

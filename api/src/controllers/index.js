@@ -56,9 +56,9 @@ const getPokemons = async (req, res) => {
             const pksDbDatavalues = pksDb.map((x) => x.dataValues)
             const formatPksDb = pksDbDatavalues.map((pkDb) => pickDbData(pkDb))
 
-            console.log(formatPksDb)
+            // console.log(formatPksDb)
 
-            let pksMixtos = [...PkmDataApi,...formatPksDb]
+            let pksMixtos = [...PkmDataApi, ...formatPksDb]
 
             res.json(pksMixtos)
 
@@ -78,17 +78,35 @@ const getPokemons = async (req, res) => {
 }
 
 
-// FUNCION RUTA 2
+// FUNCION RUTA 2  (chequear por qué en caso de ser pokemon creado, hay que envolver y desenvolver en array)
 const getPokemonById = async (req, res) => {
     const { idPokemon } = req.params;
-    try {
-        const { data } = await axios.get(`${URL}/pokemon/${idPokemon}`);
-        const picking = pickData(data)
-        res.json(picking)
 
-    } catch (err) {
-        res.json(err)
+    if (idPokemon.length < 4 ) {
+        try {
+            const { data } = await axios.get(`${URL}/pokemon/${idPokemon}`);
+            const picking = pickData(data)
+            res.json(picking)
+        } catch (err) {
+            res.json(err)
+        }
+    } else {
+        try {
+            const pksDb = await Pokemon.findByPk(idPokemon, {
+                include: Tipo
+            });
+            
+            let pkmDbDatavalues = pksDb.dataValues;
+            pkmDbDatavalues = [pkmDbDatavalues]  // envolver en array para poder pasar por pickDbData
+            console.log(pkmDbDatavalues);
+            const formatPkDb = pkmDbDatavalues.map((pkDb) => pickDbData(pkDb))
+            console.log(formatPkDb)
+            res.json(formatPkDb[0])
+        } catch (err) {
+            res.json(err)
+        }
     }
+
 }
 
 

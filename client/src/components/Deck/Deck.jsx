@@ -12,6 +12,7 @@ export function Deck(props) {
 
   let elementosPorPagina = 12;
   var cantElementos = props.reduxPokemons.length
+
   let numeroDePaginas = Math.ceil(cantElementos / elementosPorPagina);
   let paginaActual = pagina; // esto debe varia con los clicks de los botones 
   let inicio = (paginaActual * elementosPorPagina) - elementosPorPagina;
@@ -19,40 +20,39 @@ export function Deck(props) {
 
   if (fin >= cantElementos) {
     fin = cantElementos - 1
-    console.log("hola desde dentro del if")
   }
 
   const onModificarPagina = (x) => {
-    
-    if(x === -1 && pagina > 1) {
-      setPagina(pagina +x) 
+
+    if (x === -1 && pagina > 1) {
+      setPagina(pagina + x)
     } else if (x === 1 && pagina < numeroDePaginas) {
       setPagina(pagina + x)
     }
   }
-  
+
   useEffect(() => {
     props.dispatchGetPokes();
     props.dispatchGetTypes();
   }, [])
 
 
-  if (Array.isArray(props.reduxPokemons) && props.reduxPokemons.length > 0 ) {
-    let pkmPorPagina = props.reduxPokemons.slice(inicio,fin+1)
+  if (Array.isArray(props.reduxPokemons) && props.reduxPokemons.length > 0) {
+    let pkmPorPagina = props.reduxPokemons.slice(inicio, fin + 1)
     return (
       <div className={style.baul}>
-        
+
         <div className={style.paginador}>
-          <span>{`${inicio +1 } - ${fin + 1} de ${cantElementos}`}</span>
-          <button onClick={()=> onModificarPagina(-1)}> anterior </button>
+          <span>{`${inicio + 1} - ${fin + 1} de ${cantElementos}`}</span>
+          <button onClick={() => onModificarPagina(-1)}> anterior </button>
           <span>{`pagina ${pagina} de ${numeroDePaginas}`}</span>
-          <button onClick={()=> onModificarPagina(1)}> siguiente </button>
+          <button onClick={() => onModificarPagina(1)}> siguiente </button>
         </div>
 
         <div className={style.container}>
           {
             pkmPorPagina.map(pkm => {
-              {/* props.reduxPokemons.map(pkm => { */}
+              {/* props.reduxPokemons.map(pkm => { */ }
               return (
                 <Card
                   key={pkm.ID}
@@ -71,7 +71,7 @@ export function Deck(props) {
     )
   } else {
     return (
-      <div>Esperando por data</div>
+      <div>No hay pokemons con estas características</div>
     )
   }
 
