@@ -1,34 +1,49 @@
 import React from "react";
 import style from './Filters.module.css';
 import { connect } from 'react-redux'
-import { resetPokes, filterByOrigin, filterByType, order } from "../../redux/actions/pokeActions";
+import { resetPokes, filterByOrigin, filterByType, order, modificarPagina } from "../../redux/actions/pokeActions";
 
 
 
 export function Filters(props) {
 
+    let formOrigen = document.getElementById("formOrigen");
+    let formTipos = document.getElementById("formTipos");
+    let formOrden = document.getElementById("formOrden");
+    
+
     function handleReset(data) {
+        formOrigen.reset();
+        formTipos.reset();
+        formOrden.reset();
+        props.dispatchModificarPagina("inicio")
         props.dispatchResetPokes(data)
     }
 
     function handleOrigen(origen) {
-        console.log(origen)
+        formTipos.reset();
+        formOrden.reset();
+        props.dispatchModificarPagina("inicio")
         props.dispatchFilterByOrigin(props.reduxBackup, origen)
     }
 
 
     function handleType(type) {
-        console.log(type)
+        formOrigen.reset();
+        formOrden.reset();
+        props.dispatchModificarPagina("inicio")
         props.dispatchFilterByType(props.reduxBackup, type)
     }
 
     function handleOrder(criterio) {
+        formOrigen.reset();
+        formTipos.reset();
         props.dispatchOrder(props.reduxBackup , criterio)
     }
 
     return (
         <div className={style.container}>
-            <form>
+            <form id="formOrigen">
                 <div>ORIGEN</div>
                 <select defaultValue="Todos" onChange={(e) => handleOrigen(e.target.value)}>
                     <option value="todos">Todos</option>
@@ -36,7 +51,7 @@ export function Filters(props) {
                     <option value="db">Creados</option>
                 </select>
             </form>
-            <form>
+            <form id="formTipos">
                 <div>TIPOS</div>
                 <select defaultValue="Todos" onChange={(e) => handleType(e.target.value)}>
                     <option value="todos" >Todos</option>
@@ -47,8 +62,8 @@ export function Filters(props) {
                     })}
                 </select>
             </form>
-            <form>
-                <div>ORDENAMIENTO</div>
+            <form id="formOrden">
+                <div>ORDEN</div>
                 <select defaultValue="sin orden" onChange={(e) => handleOrder(e.target.value)}>
                     <option value="sinOrd" >Sin orden</option>
                     <option value="attAsc">Ataque / Ascendente</option>
@@ -73,7 +88,8 @@ function mapDispatchToProps(dispatch) {
         dispatchFilterByOrigin: (pokes, criterio) => dispatch(filterByOrigin(pokes, criterio)),
         dispatchFilterByType: (pokes, type) => dispatch(filterByType(pokes, type)),
         dispatchOrder: (pokes, criterio) => dispatch(order(pokes, criterio)),
-        // dispatchOrderByName: (pokes, order) => dispatch(orderByName(pokes, order))
+        dispatchModificarPagina: (pedido) => dispatch(modificarPagina(pedido))
+        
     }
 }
 

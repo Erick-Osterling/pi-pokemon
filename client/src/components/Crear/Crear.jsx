@@ -54,7 +54,7 @@ export function Create(props) {
         }
 
         if (!input.altura) {
-            errors.altura = "El pokemon tiene que tener vida."
+            errors.altura = "El pokemon tiene que tener altura."
         } else if (input > 100) {
             errors.altura = "no existen pokemones tan altos. Por favor ingrese una altura verosimil."
         }

@@ -5,6 +5,7 @@ const { Pokemon, Tipo } = require('../db.js');  // importé los modelos para pod
 
 // escoje la información que se necesita de los pokemons que vienen de la API
 const pickData = (data) => {
+    console.log(data)
     let pickedData = {
         ID: data.id,
         nombre: data.name,
@@ -15,7 +16,7 @@ const pickData = (data) => {
         altura: data.height,
         peso: data.weight,
         tipos: data.types.map((tipo) => tipo.type.name), // es necesario para que llegue igual que desde DB
-        imagen: data.sprites.front_default
+        imagen: data.sprites.other["official-artwork"].front_default
     }
     return pickedData
 }

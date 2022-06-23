@@ -8,7 +8,7 @@ export const RESET_POKES = 'RESET_POKES';
 export const FILTER_BY_ORIGIN = 'FILTER_BY_ORIGIN';
 export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const ORDER = 'ORDER';
-// export const ORDER_BY_NAME = 'ORDER_BY_NAME';
+export const MODIFICAR_PAGINA = 'MODIFICAR_PAGINA';
 
 
 export function getPokes() {
@@ -27,7 +27,7 @@ export function getPkByName(name) {
     return async (dispatch) => {
         try {
             const { data } = await axios(`http://localhost:5003/pokemons?name=${name}`)
-            dispatch({ type: GET_PK_BY_NAME, payload: data })
+            Array.isArray(data) ? dispatch({ type: GET_PK_BY_NAME, payload: data }): alert("Prueba con otro Pokemon (uno que exista).")
         } catch (error) {
             console.log(error)
         }
@@ -65,14 +65,34 @@ export function resetPokes(data) {
     }
 }
 
+export function modificarPagina(pedido) {
+    if (pedido === 1 || pedido === -1) {
+        return {
+            type: MODIFICAR_PAGINA,
+            payload: pedido
+        }
+    } else if (pedido === "inicio") {
+        return {
+            type: MODIFICAR_PAGINA,
+            payload: "inicio"
+        }
+    }
+    
+
+}
+
 export function filterByOrigin(pokes, criterio) {
     var filteredPkms;
     if (criterio === "api") {
         filteredPkms = pokes.filter((pkm) => typeof(pkm.ID) === "number")
 
     } else if (criterio === "db"){
+        console.log("Hola desde db")
         filteredPkms = pokes.filter((pkm) => isNaN(pkm.ID))
     }
+    else if (criterio === "todos")(
+        filteredPkms = pokes
+    )
     return {
         type: FILTER_BY_ORIGIN,
         payload: filteredPkms

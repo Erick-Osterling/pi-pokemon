@@ -1,18 +1,32 @@
 .card {
-    margin: 15px;
+    padding-top: 4px;
+    margin: 20px;
     width: 15rem;
     height: 18rem;
-    border: solid black 5px;
-    background-color: rgb(214, 214, 89);
+    /* border: solid rgb(255, 0, 0) 2px; */
+    background-color: rgba(67, 239, 255, 0.748);
   }
 
   .card div{
-      margin: 12px;
+      margin: 5px;
+      font-size: 20px;
+      
   }
   
   .card img {
-    border: solid 3px red;
-    height: 110px;
-    max-width: 200px;
-    background-color: black;
+    border: solid 2px red;
+    height: 160px;
+    max-width: 13rem;
+    padding: 4px;
+    background-color: rgb(0, 0, 0);
   }
+
+  .tipos {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .card button {
+    font-size: 16px;
+  }
+

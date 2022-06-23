@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import style from './SearchBar.module.css';
-import  {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { getPokes, getPkByName } from "../../redux/actions/pokeActions";
 
 export function SearchBar(props) {
   const [pkBusqueda, setPkBusqueda] = useState("")
-  
+
 
   return (
-    
+
     <form onSubmit={(e) => {
       e.preventDefault();
-      if(pkBusqueda){
-        props.disGetpkByName(pkBusqueda);
-      } else {
-        alert("por favor introduzca un nombre de pokemon")
-        // props.dispatchGetPokes();
-        // history.push("/home")
-      }
+      console.log(pkBusqueda, parseInt(pkBusqueda))
+      if (pkBusqueda) {
+        if (Math.abs(parseInt(pkBusqueda)) > 0 || pkBusqueda.includes("-")) {
+          alert("No se acepta ID para la búsqueda. Solo nombres de pokemon.")
+        } else props.disGetpkByName(pkBusqueda.toLowerCase())
+      } else alert ("Por favor ingrese algún nombre de Pokemon")     
     }}>
 
       <input
+        className={style.input}
         type="text"
         placeholder="Pokemon..."
         value={pkBusqueda}
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchGetPokes: (name) => dispatch(getPokes(name)), 
+    dispatchGetPokes: (name) => dispatch(getPokes(name)),
     disGetpkByName: (name) => dispatch(getPkByName(name))
   }
 }

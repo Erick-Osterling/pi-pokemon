@@ -1,9 +1,20 @@
-import { GET_POKES, GET_TYPES, GET_PK_BY_NAME, GET_PK_BY_ID, RESET_POKES, FILTER_BY_ORIGIN, FILTER_BY_TYPE, ORDER } from '../actions/pokeActions.js';
+import {
+    GET_POKES,
+    GET_TYPES,
+    GET_PK_BY_NAME,
+    GET_PK_BY_ID,
+    RESET_POKES,
+    FILTER_BY_ORIGIN,
+    FILTER_BY_TYPE,
+    ORDER,
+    MODIFICAR_PAGINA
+} from '../actions/pokeActions.js';
 
 const initialState = {
     pokemons: [],
     allTypes: [],
-    backupPokes: []
+    backupPokes: [],
+    pagina: 1
 }
 
 export default function pokeReducer(state = initialState, action) {
@@ -59,6 +70,20 @@ export default function pokeReducer(state = initialState, action) {
                 pokemons: action.payload
             }
 
+        case MODIFICAR_PAGINA:
+
+            if (action.payload === 1 || action.payload === -1) {
+                return {
+                    ...state,
+                    pagina: state.pagina + action.payload
+                }
+            } else if (action.payload === "inicio") {
+                return {
+                    ...state,
+                    pagina: 1
+                }
+            }
+
         case FILTER_BY_ORIGIN:
             return {
                 ...state,
@@ -76,12 +101,6 @@ export default function pokeReducer(state = initialState, action) {
                 ...state,
                 pokemons: action.payload
             }
-
-        // case ORDER_BY_NAME:
-        //     return {
-        //         ...state,
-        //         pokemons: action.payload
-        //     }
 
         default:
             return state;

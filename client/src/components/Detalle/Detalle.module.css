@@ -1,10 +1,10 @@
 .contenedor{
-    border: solid rgb(92, 222, 92) 5px;
+    border: solid rgb(43, 129, 227) 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 30%;
     margin: 50px auto;
     padding: 25px;
-    background-color: aquamarine;
+    background-color: rgb(29, 164, 213);
 }

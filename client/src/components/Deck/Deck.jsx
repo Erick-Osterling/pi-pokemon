@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
 import style from './Deck.module.css';
-import { getPokes, getTypes } from "../../redux/actions/pokeActions";
+import { getPokes, getTypes, modificarPagina } from "../../redux/actions/pokeActions";
 import { connect } from 'react-redux'
 import Card from "../Card/Card.jsx";
 
 
 export function Deck(props) {
-
-  const [pagina, setPagina] = useState(1)
-  const [pkPorPagina, setPkPorPagina] = useState()
-
+  
   let elementosPorPagina = 12;
-  var cantElementos = props.reduxPokemons.length
-
-  let numeroDePaginas = Math.ceil(cantElementos / elementosPorPagina);
-  let paginaActual = pagina; // esto debe varia con los clicks de los botones 
-  let inicio = (paginaActual * elementosPorPagina) - elementosPorPagina;
-  let fin = ((paginaActual * elementosPorPagina) - 1)
+  let cantElementos = props.reduxPokemons.length
+  let numeroDePaginas = Math.ceil(cantElementos / elementosPorPagina); 
+  let inicio = (props.reduxPagina * elementosPorPagina) - elementosPorPagina;
+  let fin = ((props.reduxPagina * elementosPorPagina) - 1)
 
   if (fin >= cantElementos) {
     fin = cantElementos - 1
   }
 
-  const onModificarPagina = (x) => {
 
-    if (x === -1 && pagina > 1) {
-      setPagina(pagina + x)
-    } else if (x === 1 && pagina < numeroDePaginas) {
-      setPagina(pagina + x)
+  const onModificarPagina = (pedido) => {
+  
+    if (pedido === -1 && props.reduxPagina > 1) {
+      props.dispatchModificarPagina(pedido)
+
+    } else if (pedido === 1 && props.reduxPagina < numeroDePaginas) {
+      props.dispatchModificarPagina(pedido)
     }
   }
 
@@ -45,7 +42,7 @@ export function Deck(props) {
         <div className={style.paginador}>
           <span>{`${inicio + 1} - ${fin + 1} de ${cantElementos}`}</span>
           <button onClick={() => onModificarPagina(-1)}> anterior </button>
-          <span>{`pagina ${pagina} de ${numeroDePaginas}`}</span>
+          <span>{`pagina ${props.reduxPagina} de ${numeroDePaginas}`}</span>
           <button onClick={() => onModificarPagina(1)}> siguiente </button>
         </div>
 
@@ -71,7 +68,7 @@ export function Deck(props) {
     )
   } else {
     return (
-      <div>No hay pokemons con estas características</div>
+      <div className={style.noHayPkms}>No hay pokemons de este tipo</div>
     )
   }
 
@@ -79,14 +76,16 @@ export function Deck(props) {
 }
 
 const mapStateToProps = (state) => ({
-  reduxPokemons: state.pokemons
+  reduxPokemons: state.pokemons,
+  reduxPagina: state.pagina
 });
 
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatchGetPokes: () => dispatch(getPokes()),
-    dispatchGetTypes: () => dispatch(getTypes())
+    dispatchGetTypes: () => dispatch(getTypes()),
+    dispatchModificarPagina: (pedido) => dispatch(modificarPagina(pedido))
   }
 }
 
