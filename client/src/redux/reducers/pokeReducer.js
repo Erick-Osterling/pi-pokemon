@@ -7,7 +7,8 @@ import {
     FILTER_BY_ORIGIN,
     FILTER_BY_TYPE,
     ORDER,
-    MODIFICAR_PAGINA
+    MODIFICAR_PAGINA,
+    FILTER_BY_NAME
 } from '../actions/pokeActions.js';
 
 const initialState = {
@@ -101,6 +102,18 @@ export default function pokeReducer(state = initialState, action) {
                 ...state,
                 pokemons: action.payload
             }
+
+        case FILTER_BY_NAME:
+            if (action.payload.length >= 1) {
+                return {
+                    ...state,
+                    pokemons: action.payload
+                }
+            } else {
+                alert("no se encontró un pokemon con este nombre")
+                return state
+            }
+            
 
         default:
             return state;

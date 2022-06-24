@@ -9,6 +9,7 @@ export const FILTER_BY_ORIGIN = 'FILTER_BY_ORIGIN';
 export const FILTER_BY_TYPE = 'FILTER_BY_TYPE';
 export const ORDER = 'ORDER';
 export const MODIFICAR_PAGINA = 'MODIFICAR_PAGINA';
+export const FILTER_BY_NAME = 'FILTER_BY_NAME';
 
 
 export function getPokes() {
@@ -113,7 +114,7 @@ export function filterByType(pokes, type) {
 }
 
 export function order(pokes, criterio) {
-    var orderenado = pokes.slice();
+    let orderenado = [...pokes];
 
     if (criterio === "sinOrd") orderenado  =  orderenado
 
@@ -152,18 +153,14 @@ export function order(pokes, criterio) {
     }
 }
 
-// export function orderByName(pokes, order) {
-//     var orderedPkms;
-//     if (type === "todos") {
-//         orderedPkms = pokes
-//     } else {
-//         orderedPkms = pokes.filter((pks) => pks.tipos.includes(type) )
-//     }
-//     return {
-//         type: ORDER_BY_NAME,
-//         payload: orderedPkms
-//     }
-// }
+export function filterByName(pokes, name) {
+    let filteredPkm = pokes.filter((pkm) => pkm.nombre.toLowerCase() === name.toLowerCase())
+    
+    return {
+        type: FILTER_BY_NAME,
+        payload: filteredPkm
+    }
+}
 
 
 

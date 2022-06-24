@@ -38,6 +38,7 @@ export function Filters(props) {
     function handleOrder(criterio) {
         formOrigen.reset();
         formTipos.reset();
+        props.dispatchModificarPagina("inicio")
         props.dispatchOrder(props.reduxBackup , criterio)
     }
 
@@ -45,7 +46,7 @@ export function Filters(props) {
         <div className={style.container}>
             <form id="formOrigen">
                 <div>ORIGEN</div>
-                <select defaultValue="Todos" onChange={(e) => handleOrigen(e.target.value)}>
+                <select onChange={(e) => handleOrigen(e.target.value)}>
                     <option value="todos">Todos</option>
                     <option value="api">Existentes</option>
                     <option value="db">Creados</option>
@@ -53,7 +54,7 @@ export function Filters(props) {
             </form>
             <form id="formTipos">
                 <div>TIPOS</div>
-                <select defaultValue="Todos" onChange={(e) => handleType(e.target.value)}>
+                <select  onChange={(e) => handleType(e.target.value)}>
                     <option value="todos" >Todos</option>
                     {props.reduxAllTypes.map(type => {
                         return (
@@ -64,7 +65,7 @@ export function Filters(props) {
             </form>
             <form id="formOrden">
                 <div>ORDEN</div>
-                <select defaultValue="sin orden" onChange={(e) => handleOrder(e.target.value)}>
+                <select onChange={(e) => handleOrder(e.target.value)}>
                     <option value="sinOrd" >Sin orden</option>
                     <option value="attAsc">Ataque / Ascendente</option>
                     <option value="attDes">Ataque / Descendente</option>

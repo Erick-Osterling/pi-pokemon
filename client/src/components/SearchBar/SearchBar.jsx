@@ -1,30 +1,24 @@
 import React, { useState } from "react";
 import style from './SearchBar.module.css';
 import { connect } from 'react-redux'
-import { getPokes, getPkByName } from "../../redux/actions/pokeActions";
+import { filterByName, modificarPagina } from "../../redux/actions/pokeActions";
 
 export function SearchBar(props) {
   const [pkBusqueda, setPkBusqueda] = useState("")
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (pkBusqueda) {
+      props.dispatchModificarPagina("inicio");
+      props.disFilterByName(props.reduxBackup, pkBusqueda);
+      setPkBusqueda("")
+    } else alert("Por favor ingrese algún nombre de Pokemon")
+  }
 
   return (
-
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      console.log(pkBusqueda, parseInt(pkBusqueda))
-      if (pkBusqueda) {
-        if (Math.abs(parseInt(pkBusqueda)) > 0 || pkBusqueda.includes("-")) {
-          alert("No se acepta ID para la búsqueda. Solo nombres de pokemon.")
-        } else props.disGetpkByName(pkBusqueda.toLowerCase())
-      } else alert ("Por favor ingrese algún nombre de Pokemon")     
-    }}>
-
-      <input
-        className={style.input}
-        type="text"
-        placeholder="Pokemon..."
-        value={pkBusqueda}
-        onChange={(evento) => setPkBusqueda(evento.target.value)}
+    <form onSubmit={(e) => handleSubmit(e)} >
+      <input className={style.input} type="text" placeholder="Pokemon..."
+        value={pkBusqueda} onChange={(evento) => setPkBusqueda(evento.target.value)}
       />
 
       <input type="submit" className={style.btnSearch} value="Buscar" />
@@ -32,17 +26,14 @@ export function SearchBar(props) {
   );
 }
 
-// ojo, cuando busquemos, luego para mostrar, hay que hacer un ternario en el map: "movies?.map" 21b react redux 51:50
-
 const mapStateToProps = (state) => ({
-  reduxPokemons: state.pokemons
+  reduxBackup: state.backupPokes
 });
-
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchGetPokes: (name) => dispatch(getPokes(name)),
-    disGetpkByName: (name) => dispatch(getPkByName(name))
+    disFilterByName: (pokes, name) => dispatch(filterByName(pokes, name)),
+    dispatchModificarPagina: (pedido) => dispatch(modificarPagina(pedido))
   }
 }
 

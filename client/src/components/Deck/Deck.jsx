@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from './Deck.module.css';
-import { getPokes, getTypes, modificarPagina } from "../../redux/actions/pokeActions";
+import { getPokes, getTypes, modificarPagina, resetPokes } from "../../redux/actions/pokeActions";
 import { connect } from 'react-redux'
 import Card from "../Card/Card.jsx";
 
@@ -29,8 +29,14 @@ export function Deck(props) {
   }
 
   useEffect(() => {
-    props.dispatchGetPokes();
-    props.dispatchGetTypes();
+    if(props.reduxBackup.length>=1){
+      props.dispatchModificarPagina("inicio");
+      props.dispatchResetPokes(props.reduxBackup);
+      props.dispatchGetTypes();
+    } else {
+      props.dispatchGetPokes();
+      props.dispatchGetTypes();
+    }
   }, [])
 
 
@@ -77,7 +83,8 @@ export function Deck(props) {
 
 const mapStateToProps = (state) => ({
   reduxPokemons: state.pokemons,
-  reduxPagina: state.pagina
+  reduxPagina: state.pagina,
+  reduxBackup: state.backupPokes
 });
 
 
@@ -85,7 +92,8 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatchGetPokes: () => dispatch(getPokes()),
     dispatchGetTypes: () => dispatch(getTypes()),
-    dispatchModificarPagina: (pedido) => dispatch(modificarPagina(pedido))
+    dispatchModificarPagina: (pedido) => dispatch(modificarPagina(pedido)),
+    dispatchResetPokes: (data) => dispatch(resetPokes(data)),
   }
 }
 

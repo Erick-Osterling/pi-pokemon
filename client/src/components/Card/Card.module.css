@@ -15,7 +15,7 @@
   
   .card img {
     border: solid 2px red;
-    height: 160px;
+    height: 150px;
     max-width: 13rem;
     padding: 4px;
     background-color: rgb(0, 0, 0);
@@ -24,6 +24,8 @@
   .tipos {
     display: flex;
     justify-content: space-evenly;
+  
+   
   }
 
   .card button {
